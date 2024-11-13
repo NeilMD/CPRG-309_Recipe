@@ -2,8 +2,15 @@ let recipeData = new Object();
 
 let recipeSettings = {
     multiplier: 1,
-    metric: 0, // 0:Metric, 1:Imperial,
-    metricMultiplier : 1
+    metric: 0, // 0:Metric, 1:Imperial
+}
+
+// Google Conversion Multiplier
+const UNIT_MULTIPLIER = {
+    gramsToPounds : 0.00220462,
+    tspToMl : 4.92892,
+    tbspToMl : 14.7868,
+    cupsToMl : 240
 }
 
 const getData = async function () {
@@ -28,31 +35,41 @@ const getData = async function () {
     }
 })();
 
-document.getElementById("submit").addEventListener('click', (event)=>{
-    // Insert update data
-    event.preventDefault();
-    const elRecipe = document.getElementById("recipe");
-    const elMultiplier = document.getElementById("serving");
+const convertUnit = (data)  => {
+    let blConvert, numAmount, txtConverted, txtNewUnit;
 
-    
-    if (!elRecipe.checkValidity() || !elMultiplier.checkValidity()) {
-        if (!elRecipe.checkValidity()) {
-            elRecipe.reportValidity(); 
-        } else {
-            elMultiplier.reportValidity(); 
+    // if selected measurement is imperial
+    if (recipeSettings.metric == 1) {
+        blConvert = (data.unit == 'grams') ? 1 : 0;
+        numAmount = (data.amount * recipeSettings.multiplier * (blConvert ? UNIT_MULTIPLIER.gramsToPounds : 1));
+        txtNewUnit = blConvert ? 'pounds' : data.unit;
+    } else { // Else, metric
+        let numMl = 1;
+        // Check current unit if imperial
+        switch (data.unit) {
+            case 'tablespoons':
+            case 'tablespoon':
+                numMl = UNIT_MULTIPLIER.tbspToMl;
+                txtNewUnit = 'ml'
+                break;
+            case 'teaspoons':
+            case 'teaspoon':
+                numMl = UNIT_MULTIPLIER.tspToMl;
+                txtNewUnit = 'ml'
+                break;
+            case 'cups':
+            case 'cup':
+                numMl = UNIT_MULTIPLIER.cupsToMl;
+                txtNewUnit = 'ml';
+                break
+            default: 
+                txtNewUnit = data.unit
         }
-        return; 
+        numAmount = (data.amount * recipeSettings.multiplier * numMl);
     }
-
-    let recipe = document.getElementById('recipe').value;
-    recipeSettings.multiplier = document.getElementById('serving').value;
-    recipeSettings.metric = document.querySelector('input[name="measurement"]:checked').value;
-    //change multiplier depending on the measuring system selected
-    recipeSettings.metricMultiplier = document.querySelector('input[name="measurement"]:checked').value ? 0.00220462: 1  ;
-    document.getElementById('recipe-container').classList.remove("hidden")
-    fillUp(recipeData[recipe])
-
-})
+    txtConverted = parseFloat(Math.round(numAmount * 100) / 100);
+    return `${txtConverted} ${txtNewUnit}`; 
+}
 
 const fillUp =  (data) => {
     let elArticle  = document.getElementById("recipe-container");
@@ -89,12 +106,8 @@ const fillUp =  (data) => {
     // Update Ingredients
     let ingredientsEl = '';
     for (const ing of data.ingredients) {
-        // boolean to if it needs to be converted to imperial
-        let blConvert = (recipeSettings.metric == 1 && ing.unit == 'grams') ? 1 : 0;
-        let numAmount = (ing.amount * recipeSettings.multiplier * (blConvert ? recipeSettings.metricMultiplier : 1));
-        let txtAmount = parseFloat(Math.round(numAmount * 100) / 100);
         let el= `<li class="text-30">
-            ${txtAmount} ${blConvert? 'pounds': ing.unit} ${ing.item}
+            ${convertUnit(ing)} ${ing.item}
         </li>`;
         ingredientsEl += el;
     }
@@ -119,3 +132,28 @@ const fillUp =  (data) => {
     // animation to fade the whole section
     elArticle.classList.add("article-fade");
 }
+
+
+// Element behavior
+
+
+document.getElementById("submit").addEventListener('click', (event)=>{
+    // Insert update data
+    event.preventDefault();
+    const elRecipe = document.getElementById("recipe");
+    const elMultiplier = document.getElementById("serving");
+
+    if (!elRecipe.checkValidity() || !elMultiplier.checkValidity()) {
+        const invalidEl = !elRecipe.checkValidity() ? elRecipe : elMultiplier;
+        invalidEl.reportValidity();
+        return;
+    }
+    
+    let recipe = document.getElementById('recipe').value;
+    recipeSettings.multiplier = document.getElementById('serving').value;
+    recipeSettings.metric = document.querySelector('input[name="measurement"]:checked').value;
+    document.getElementById('recipe-container').classList.remove("hidden")
+    fillUp(recipeData[recipe])
+
+})
+
