@@ -2,14 +2,34 @@
     display: none;
 }
 
-.nav-active a{
-    color: white;
-    text-decoration: underline;
+nav ul li.nav-active::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px; 
+    background-color: white; 
+    position: absolute;
+    bottom: 0;
+    left: 0; 
 }
 
-nav ul li:hover {
-    
-    text-decoration: underline;
+nav ul li {
+    position: relative;
+}
+
+nav ul li::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px; /* Adjust the position of the underline */
+    width: 0;
+    height: 2px; /* Height of the underline */
+    background-color: white; /* Color of the underline */
+    transition: width 0.4s ease; /* Speed of the underline animation */
+}
+
+nav ul li:hover::after {
+    width: 100%; /* Full underline when hovered */
 }
 
 @keyframes fadeText {
