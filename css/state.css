@@ -1,0 +1,45 @@
+.hidden {
+    display: none;
+}
+
+.nav-active a{
+    color: white;
+    text-decoration: underline;
+}
+
+nav ul li:hover {
+    
+    text-decoration: underline;
+}
+
+@keyframes fadeText {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.article-fade {
+    animation: fadeText 1.5s ease-in-out;
+}
+
+
+li:not(:has(a)), td {
+    position: relative;
+    transform: translateY(100%); /* Start below the header */
+    opacity: 0;
+    animation: popUp 1s ease-out forwards 1s;
+}
+
+@keyframes popUp {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

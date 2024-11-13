@@ -1,0 +1,125 @@
+.flex, body, header, footer, nav ul {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-align-center {
+    align-items: center;
+}
+
+.flex-space-between {
+    justify-content: space-between;
+}
+
+.flex-justify-center {
+    justify-content: center;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.fit-width {
+    width: fit-content;
+}
+
+.column-gap {
+    column-gap: 3rem;
+}
+
+.gap-7 {
+    gap: 7px;
+}
+
+.margin-auto {
+    margin: 0 auto;
+}
+
+.margin-y {
+    margin: 2rem 0;
+}
+
+.padding-2rem {
+    padding: 2rem;
+}
+
+main {
+    width: fit-content;
+    border: none;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-wrapper section:nth-of-type(1) {
+    width: fit-content;
+}
+
+@media (width < 768px) {
+    .main-wrapper section {
+        width: 80vw;
+    }
+
+    .main-wrapper section:nth-of-type(2) {
+        max-width: 90vw;
+    }
+
+    div {
+        width: calc(90vw - 60%);
+    }
+
+    .tags {
+        display: inline-flex;
+        flex-wrap: wrap;
+    }
+
+    h3, p, small, p#desc,
+    .text-70:not(li), select, th, td, input:not([type="radio"]) {
+        width: unset;
+    }
+
+    li.text-70, p {
+        width: unset;
+    }
+
+    fieldset div {
+       width: inherit;
+    }
+
+    article {
+        padding: 1rem;
+        margin: 1rem 0.5rem;
+    }
+
+    ul{
+        columns: 1;
+    }
+}
+
+@media (width < 480px) {
+    .main-wrapper section:nth-of-type(1) {
+        width: 100%;
+    }
+
+    div {
+        width: unset;
+    }
+    
+    .main-wrapper section:nth-of-type(1) {
+        flex-direction: column;
+    }
+
+
+    fieldset div:not(div div) {
+       display: flex;
+       flex-direction: column;
+    }
+}

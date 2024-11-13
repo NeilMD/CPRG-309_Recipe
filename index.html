@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookbook</title>
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/module.css">
+    <link rel="stylesheet" href="./css/state.css">
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <header class="flex flex-col  full-width">
+        <nav class="flex flex-justify-center full-width">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li class="nav-active"><a href="#cookbook">Cookbook</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </nav>
+
+        <h1>Cookbook</h1>
+    </header>
+
+    <main>
+        <section class="main-wrapper">
+            <h2>Recipe Display</h2>
+            <form>
+                <fieldset >
+                    <legend>
+                        Recipe Display Settings
+                    </legend>
+                    <div>
+                        <label for="recipe">Selected Recipe: </label>
+                        <select class="text-40" id="recipe" name="recipe" required>
+                            <option value="" disabled selected>Select</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="serving">Serving Multiplier:</label>
+                        <input type="number" id="serving" name="serving" min="1" value="1" placeholder="1" required>
+                    </div>
+                    <div>
+                        <label>Measuring System: </label>
+                        <div>
+                            <input type="radio" id="metric" name="measurement" value="0" checked>
+                            <label for="metric">Metric</label>
+
+                            <input type="radio" id="imperial" name="measurement" value="1">
+                            <label for="imperial">Imperial</label>
+                        </div>
+                    </div>
+                    <button type="submit" id="submit">Submit</button>
+                </fieldset>
+            </form>
+        </section>
+
+        <section id="recipe-container" class="main-wrapper hidden">
+            <h2>Recipe Information</h2>
+            <!-- Recipe Details -->
+            <section>
+                <img id="recipeImage" width="250" src="#" alt="Recipe Image" height="200">
+                
+                 <div>
+                    <h3 id="recipename">Temp</h3>
+                    <span class="tags lavender-bg">
+                        <strong class="label">Cuisine:</strong>
+                        <span id="cuisine"></span>
+                    </span>
+                    <span class="tags blue-bg">
+                        <strong class="label">Difficulty:</strong>
+                        <span id="diff"></span>
+                    </span>
+
+                    <p id="desc"></p>
+
+                    <p>
+                        <strong>Preparation Time:</strong>
+                        <span id="prepTime"></span>
+                    </p>
+
+                    <p> 
+                        <strong>Cook Time:</strong>
+                        <span id="cookTime"></span>
+                    </p>
+
+                    <p>
+                        <strong>Servings Size:</strong>
+                        <span id="servings"></span>
+                    </p>
+                 </div>
+            </section>
+            <hr>
+            <!-- Ingredients Section -->
+            <section>
+                <h3>Ingredients</h3>
+                <ul id="ingredients-list"></ul>
+            </section>
+            <hr>
+            <!-- Instructions Section -->
+            <section>
+                <h3>Instructions</h3>
+                <ol id="instructions-list"></ol>
+            </section>
+            <hr>
+            <!-- Nutritional Information Section as a Table -->
+            <section class="flex full-width flex-col flex-align-center">
+                <h3>Nutritional Information <small class="small-italic">(Per Serving) </small></h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nutrient</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Calories</td>
+                            <td id="cal"></td>
+                        </tr>
+                        <tr>
+                            <td>Protein</td>
+                            <td id="protein"></td>
+                        </tr>
+                        <tr>
+                            <td>Carbohydrates</td>
+                            <td id="carbs"></td>
+                        </tr>
+                        <tr>
+                            <td>Fat</td>
+                            <td id="fat"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        
+            <!-- Tags Section -->
+            <section>
+                <h3 id="tags-header">Tags</h3>
+            </section>
+        </section>
+    </main>
+    <footer class="flex flex-col full-width">
+        
+        <p>&copy; 2024 RECIPE. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
